@@ -1,0 +1,51 @@
+.chat-container {
+  max-width: 800px;
+  margin: 40px auto;
+  padding: 20px;
+  font-family: "Segoe UI", sans-serif;
+  background: #f9f9f9;
+  border-radius: 12px;
+  box-shadow: 0 0 12px rgba(0, 0, 0, 0.1);
+}
+
+.chat-container input[type="text"] {
+  width: 100%;
+  max-width: 600px;  /* You can adjust this as needed */
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
+.chat-container button {
+  padding: 10px 18px;
+  font-size: 15px;
+  margin-left: 10px;
+  border: none;
+  background-color: #0077cc;
+  color: white;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.chat-response {
+  margin-top: 20px;
+  background: #e8f5e9;
+  padding: 15px;
+  border-left: 4px solid #2e7d32;
+  border-radius: 6px;
+  white-space: pre-wrap;
+  line-height: 1.5;
+}
+
+.clause-wrap {
+  white-space: pre-wrap;
+  word-break: break-word;
+  font-size: 14px;
+  line-height: 1.5;
+  background: #fff;
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid #ddd;
+  margin-bottom: 4px;
+}

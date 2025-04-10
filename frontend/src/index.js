@@ -1,3 +1,4 @@
+// frontend/src/index.js
 import React, { useState } from "react";
 import { createRoot } from "react-dom/client";
 import "./chatbot.css";
@@ -5,74 +6,88 @@ import "./chatbot.css";
 function Chatbot() {
   const [question, setQuestion] = useState("");
   const [answer, setAnswer] = useState("");
-  const [docId, setDocId] = useState("AGIOS_20230501");
   const [matches, setMatches] = useState([]);
-  const [showMatches, setShowMatches] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [docId, setDocId] = useState(null);
 
   const handleSubmit = async () => {
-    const res = await fetch("/api/ask/", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ question, doc_id: docId }),
-    });
+    if (!question.trim()) return;
 
-    const data = await res.json();
-    setAnswer(data.answer);
-    setMatches(data.matches || []);
-    setShowMatches(true);
+    setLoading(true);
+    setAnswer("");
+    setMatches([]);
+
+    try {
+      const response = await fetch("/api/ask/", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ question }),
+      });
+
+      const data = await response.json();
+      setAnswer(data.answer);
+      setMatches(data.matches || []);
+      setDocId(data.doc_id || null);
+    } catch (error) {
+      setAnswer("Something went wrong.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
-    <div className="chat-container">
-      <h2>💬 MarineFlow AI Chatbot</h2>
+    <div className="chatbot-container">
+      <h1>MarineFlow Chatbot</h1>
 
-      <div className="dropdown-area">
-        <label htmlFor="doc">Document:</label>
-        <select
-          id="doc"
-          value={docId}
-          onChange={(e) => setDocId(e.target.value)}
-        >
-          <option value="AGIOS_20230501">AGIOS_20230501</option>
-          {/* Add more doc IDs here */}
-        </select>
-      </div>
-
-      <div className="input-area">
-        <input
-          type="text"
-          placeholder="Ask a question..."
+      <div className="input-container">
+        <textarea
+          className="question-input"
           value={question}
           onChange={(e) => setQuestion(e.target.value)}
+          placeholder="Ask your question here..."
+          rows={4}
         />
-        <button onClick={handleSubmit}>Ask</button>
+        <button
+          onClick={handleSubmit}
+          className={`submit-button ${loading ? "disabled" : ""}`}
+          disabled={question.trim().length === 0 || loading}
+        >
+          {loading ? "Thinking..." : "Ask"}
+        </button>
       </div>
 
-      {answer && <div className="chat-response">{answer}</div>}
-
-      {matches.length > 0 && (
-        <div className="match-section">
-          <button
-            className="toggle-matches"
-            onClick={() => setShowMatches(!showMatches)}
-          >
-            {showMatches ? "🔽 Hide Top Matches" : "▶️ Show Top Matches"}
-          </button>
-          {showMatches && (
-            <ul className="match-list">
-              {matches.map((m, idx) => (
-                <li key={idx}>
-                  <pre className="clause-wrap">{m.clause}</pre>
-                  <div className="match-score">Score: {m.score}</div>
-                </li>
-              ))}
-            </ul>
+      {answer && (
+        <div className="answer-box">
+          <h2>Answer</h2>
+          <p>{answer}</p>
+          {docId && (
+            <p className="doc-id">
+              <strong>Source Document:</strong>{" "}
+              <span className="doc-id-tag">{docId}</span>
+            </p>
           )}
         </div>
+      )}
+
+      {matches.length > 0 && (
+        <details className="matches-box">
+          <summary>Top Matches</summary>
+          <ul>
+            {matches.map((match, idx) => (
+              <li key={idx}>
+                <pre>{match.clause}</pre>
+                <em>Score: {match.score}</em>
+              </li>
+            ))}
+          </ul>
+        </details>
       )}
     </div>
   );
 }
 
-const root = createRoot(document.getElementById("root"));
+const container = document.getElementById("root");
+const root = createRoot(container);
 root.render(<Chatbot />);

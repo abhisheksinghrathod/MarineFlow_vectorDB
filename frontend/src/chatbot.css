@@ -1,51 +1,126 @@
-.chat-container {
-  max-width: 800px;
+.chatbot-container {
+  max-width: 700px;
   margin: 40px auto;
-  padding: 20px;
-  font-family: "Segoe UI", sans-serif;
-  background: #f9f9f9;
+  padding: 20px 30px;
+  border: 1px solid #ddd;
   border-radius: 12px;
-  box-shadow: 0 0 12px rgba(0, 0, 0, 0.1);
+  background-color: #fefefe;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-.chat-container input[type="text"] {
-  width: 100%;
-  max-width: 600px;  /* You can adjust this as needed */
-  padding: 10px;
+h1 {
+  font-size: 24px;
+  text-align: center;
+  margin-bottom: 20px;
+  color: #1d3557;
+}
+
+.input-container {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.question-input {
   font-size: 16px;
+  padding: 12px;
   border: 1px solid #ccc;
-  border-radius: 6px;
+  border-radius: 8px;
+  resize: vertical;
+  width: 100%;
 }
 
-.chat-container button {
-  padding: 10px 18px;
-  font-size: 15px;
-  margin-left: 10px;
-  border: none;
-  background-color: #0077cc;
+.submit-button {
+  padding: 6px 20px;
+  font-size: 14px;
+  background-color: #1d3557;
   color: white;
+  border: none;
   border-radius: 6px;
   cursor: pointer;
+  transition: background-color 0.2s ease;
+  width: fit-content; /* ✅ Makes width match content */
+  align-self: flex-start; /* ✅ Aligns button to the left */
+  margin-top: 10px;
 }
 
-.chat-response {
+
+.submit-button:hover:not(.disabled) {
+  background-color: #457b9d;
+}
+
+.submit-button.disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.answer-box {
   margin-top: 20px;
-  background: #e8f5e9;
   padding: 15px;
-  border-left: 4px solid #2e7d32;
+  border-left: 4px solid #1d3557;
+  background-color: #f1f9ff;
   border-radius: 6px;
-  white-space: pre-wrap;
-  line-height: 1.5;
 }
 
-.clause-wrap {
-  white-space: pre-wrap;
-  word-break: break-word;
+.answer-box h2 {
+  margin-top: 0;
+  color: #1d3557;
+}
+
+.doc-id {
+  margin-top: 10px;
   font-size: 14px;
-  line-height: 1.5;
-  background: #fff;
+  color: #333;
+}
+
+.doc-id-tag {
+  display: inline-block;
+  background-color: #a8dadc;
+  color: #1d3557;
+  padding: 2px 8px;
+  border-radius: 6px;
+  font-family: monospace;
+  font-size: 13px;
+  margin-left: 6px;
+}
+
+.matches-box {
+  margin-top: 25px;
+  background-color: #fafafa;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  padding: 10px;
+}
+
+.matches-box summary {
+  font-weight: bold;
+  cursor: pointer;
+  color: #1d3557;
+  margin-bottom: 8px;
+}
+
+.matches-box ul {
+  list-style: none;
+  padding-left: 0;
+  margin-top: 12px;
+}
+
+.matches-box li {
+  background-color: #fff;
+  border: 1px dashed #ccc;
+  margin-bottom: 10px;
   padding: 10px;
   border-radius: 6px;
-  border: 1px solid #ddd;
-  margin-bottom: 4px;
+  font-size: 14px;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.matches-box em {
+  display: block;
+  margin-top: 6px;
+  color: #6c757d;
+  font-size: 13px;
 }
